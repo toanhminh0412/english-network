@@ -1,0 +1,33 @@
+{
+    "people": [
+        {
+            "id": 0,
+            "name": "John Donne",
+            "bio": {
+                "born": 1571,
+                "died": 1631,
+                "occupation": "Poet, priest, lawyer",
+                "genre": "Satire, love poetry, elegy, sermons",
+                "spouse": "Anne More",
+                "fullbio": "https://en.wikipedia.org/wiki/John_Donne"
+            }
+        },
+        {
+            "id": 1,
+            "name": "Henry Wotton",
+            "bio": {
+                "born": 1568,
+                "died": 1639,
+                "occupation": "Author, diplomat, politician",
+                "spouse": "Victoria Wotton",
+                "fullbio": "https://en.wikipedia.org/wiki/Henry_Wotton"
+            }
+        }
+    ],
+    "relationships": [
+        {
+            "source": 0,
+            "target": 1
+        }
+    ]
+}
