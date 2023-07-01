@@ -6,14 +6,16 @@ import * as d3 from 'd3';
 
 export default function NetworkGraph({width=1000, height=500}) {
     const [people, setPeople] = useState([]);
+    const [relationships, setRelationships] = useState([]);
 
     const drawGraph = async () => {
         // Extract the data
         const data = await d3.json('data/data.json');
         
-        const links = data.relationships.map(d => ({...d}));
         let nodes = data.people.map(d => ({...d}));
+        const links = data.relationships.map(d => ({...d}));
         setPeople(nodes);
+        setRelationships(links);
 
         // Initialize color
         const color = d3.scaleOrdinal(d3.schemeTableau10);
@@ -46,7 +48,7 @@ export default function NetworkGraph({width=1000, height=500}) {
             .attr("fill", d => color(d.id+1))
             .attr("stroke", "#999");
 
-
+        // Add a title tag to each node
         node.append("title")
         .text(d => d.name);
 
@@ -57,11 +59,9 @@ export default function NetworkGraph({width=1000, height=500}) {
         .on("end", dragended));
 
         node
-        // Show black border when hovering on node
         .on("mouseover", (event) => {
             event.target.style.stroke = '#000';
         })
-        // Show grey border when hovering on node
         .on("mouseout", (event) => {
             event.target.style.stroke = '#999';
         })
@@ -78,7 +78,10 @@ export default function NetworkGraph({width=1000, height=500}) {
         .on("mouseout", (event) => {
             event.target.style.stroke = '#999';
         })
-
+        // Show two people's relationship when clicking on a link between them
+        .on("click", (event, d) => {
+            document.getElementById(`relationship-${d.id}`).showModal();
+        })
 
         // Update position of lines and nodes every second
         function ticked() {
@@ -130,6 +133,29 @@ export default function NetworkGraph({width=1000, height=500}) {
                 </ul>
                 <div className="modal-action">
                     <button className="btn">Close</button>
+                </div>
+            </form>
+        </dialog>
+        ))}
+        {relationships.map(relationship => (
+        <dialog key={relationship.id} id={`relationship-${relationship.id}`} className="modal">
+            <form method="dialog" className="modal-box max-h-[700px]">
+                <h3 className="font-medium text-xl">Letters between <span className="font-bold">{relationship.source.name}</span> and <span className="font-bold">{relationship.target.name}</span></h3>
+                {relationship.letters.map((letter, letterIndex) => (
+                <div key={letter.title} className="collapse bg-base-200 mt-4">
+                    <input type="radio" name="my-accordion-1" defaultChecked={letterIndex === 0}/> 
+                    <div className="collapse-title text-sm font-light">
+                        <span className="text-xl font-medium">{letter.title}</span><br/>
+                        - From {people[letter.from].name} to {people[letter.to].name}
+                    </div>
+                    <div className="collapse-content"> 
+                        <iframe src={letter.content} className="w-full min-h-[300px]"></iframe>
+                    </div>
+                </div>
+                ))}
+                <div className="modal-action">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn btn-neutral">Close</button>
                 </div>
             </form>
         </dialog>
