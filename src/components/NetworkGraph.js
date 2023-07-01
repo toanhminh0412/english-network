@@ -132,8 +132,11 @@ export default function NetworkGraph({width=1000, height=500}) {
                     ))}
                 </ul>
                 <div className="modal-action">
-                    <button className="btn">Close</button>
+                    <button className="btn btn-neutral">Close</button>
                 </div>
+            </form>
+            <form method="dialog" className="modal-backdrop">
+                <button>close</button>
             </form>
         </dialog>
         ))}
@@ -157,6 +160,9 @@ export default function NetworkGraph({width=1000, height=500}) {
                     {/* if there is a button in form, it will close the modal */}
                     <button className="btn btn-neutral">Close</button>
                 </div>
+            </form>
+            <form method="dialog" className="modal-backdrop">
+                <button>close</button>
             </form>
         </dialog>
         ))}
