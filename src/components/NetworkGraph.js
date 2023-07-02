@@ -16,7 +16,6 @@ export default function NetworkGraph({width=1000, height=500}) {
         const links = data.relationships.map(d => ({...d}));
         setPeople(nodes);
         setRelationships(links);
-        console.log(nodes);
 
         // Initialize color
         const color = d3.scaleOrdinal(d3.schemeTableau10);
