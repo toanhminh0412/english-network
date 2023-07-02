@@ -16,6 +16,7 @@ export default function NetworkGraph({width=1000, height=500}) {
         const links = data.relationships.map(d => ({...d}));
         setPeople(nodes);
         setRelationships(links);
+        console.log(nodes);
 
         // Initialize color
         const color = d3.scaleOrdinal(d3.schemeTableau10);
@@ -47,6 +48,13 @@ export default function NetworkGraph({width=1000, height=500}) {
             .attr("r", 20)
             .attr("fill", d => color(d.id+1))
             .attr("stroke", "#999");
+
+        // Add names as texts to nodes
+        const text = svg.append("g")
+        .selectAll()
+            .data(nodes)
+            .join("text")
+            .text(d => d.name);
 
         // Add a title tag to each node
         node.append("title")
@@ -94,6 +102,9 @@ export default function NetworkGraph({width=1000, height=500}) {
             node
                 .attr("cx", d => d.x)
                 .attr("cy", d => d.y);
+            text
+                .attr("x", d => d.x)
+                .attr("y", d => d.y);
         }
         
         // Functions to handle drag events
