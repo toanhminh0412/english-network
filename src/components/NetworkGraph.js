@@ -131,7 +131,7 @@ export default function NetworkGraph({width=1000, height=500}) {
 
     return (
     <>
-        <svg viewBox={`0 0 ${width} ${height}`}></svg>
+        <svg width="100%" height="100vh" viewBox={`0 0 ${width} ${height}`}></svg>
         {people.map(person => (
         <dialog key={person.id} id={`bio-${person.id}`} className="modal">
             <form method="dialog" className="modal-box">
